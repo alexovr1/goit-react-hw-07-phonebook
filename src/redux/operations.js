@@ -20,7 +20,7 @@ export const addContact = createAsyncThunk(
     async (contact, thunkAPI) => {
         try {
             const response = await axios.post('/contacts', {
-                name: contact.contactName,
+                name: contact.name,
                 phone: contact.phone,
             });
             return response.data;
