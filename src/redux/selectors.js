@@ -17,3 +17,9 @@ export const selectFilteredContacts = createSelector(
         );
     }
 );
+export const selectIsContact = createSelector([selectContacts], contacts => {
+    return newUser => {
+        const normalizedName = newUser.toLowerCase();
+        return !contacts.find(user => user.name.toLowerCase() === normalizedName);
+    };
+});

@@ -2,22 +2,22 @@ import { Formik } from 'formik';
 import { FormStyles, Label, SubmitBtn } from './Form.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/operations';
+import { selectIsContact } from 'redux/selectors';
 
 export const Form = () => {
     const dispatch = useDispatch();
-    const contacts = useSelector(state => state.contacts);
 
-    const handleSubmit = ({ name, number }, action) => {
-        if (
-            contacts.find(user => user.name.toLowerCase() === name.toLowerCase())
-        ) {
-            return alert(`${name} is already in contacts`);
+    const checkContacts = useSelector(selectIsContact);
+    const handleSubmit = ({ name, phone }, action) => {
+        if (!checkContacts(name)) {
+            alert(`${name} is already is contacts`);
+            return;
         }
-        dispatch(addContact(name, number));
+        dispatch(addContact({ name, phone }));
         action.resetForm();
     };
     return (
-        <Formik initialValues={{ name: '', number: '' }} onSubmit={handleSubmit}>
+        <Formik initialValues={{ name: '', phone: '' }} onSubmit={handleSubmit}>
             {({ values, handleChange }) => (
                 <FormStyles>
                     <Label display='block'>
@@ -32,20 +32,18 @@ export const Form = () => {
                             onChange={handleChange}
                         />
                     </Label>
-                    {/* <br /> */}
                     <Label>
                         Number
                         <input
                             type="tel"
-                            name="number"
+                            name="phone"
                             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                             required
-                            value={values.number}
+                            value={values.phone}
                             onChange={handleChange}
                         />
                     </Label>
-                    {/* <br /> */}
                     <SubmitBtn type="submit">Add contact</SubmitBtn>
                 </FormStyles>
             )}
