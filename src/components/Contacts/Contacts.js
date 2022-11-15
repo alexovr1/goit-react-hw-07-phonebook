@@ -4,6 +4,7 @@ import { setFilter } from '../../redux/filterSlice';
 import { Label } from 'components/Form/Form.styled';
 import { FindContact, DeleteBtn, Contact } from './Contacts.styled';
 import { selectError, selectFilteredContacts, selectIsLoading } from 'redux/selectors';
+import { loader } from 'components/loader';
 
 export const ContactList = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export const ContactList = () => {
                 />
             </Label>
             <ul>
-                {isLoading && <h3>Loading....</h3>}
+                {isLoading && loader()}
                 {error && <h3>{error}</h3>}
 
                 {contacts.length !== 0

@@ -15,9 +15,10 @@ const contactsSlice = createSlice({
         builder
             .addCase(getContacts.fulfilled, (state, action) => {
                 state.items = action.payload;
+                // console.log(state.items);
             })
             .addCase(deleteContact.fulfilled, (state, action) => {
-                const index = state.items.findIndex(task => task.id === action.payload);
+                const index = state.items.findIndex(item => item.id === action.payload.id);
                 state.items.splice(index, 1);
             })
             .addCase(addContact.fulfilled, (state, action) => {
