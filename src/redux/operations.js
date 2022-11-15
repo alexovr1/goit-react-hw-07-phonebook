@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { notifyWarning } from 'helpers/notifications';
 
 axios.defaults.baseURL = 'https://63728a67025414c637125d0f.mockapi.io';
 
@@ -35,6 +36,7 @@ export const deleteContact = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             const { data } = await axios.delete(`/contacts/${id}`);
+            notifyWarning(`${data.name} delete from phonebook`)
             return data;
 
         } catch (e) {

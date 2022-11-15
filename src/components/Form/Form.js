@@ -3,6 +3,7 @@ import { FormStyles, Label, SubmitBtn } from './Form.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/operations';
 import { selectIsContact } from 'redux/selectors';
+import { notifySuccess, notifyWarning } from 'helpers/notifications';
 
 export const Form = () => {
     const dispatch = useDispatch();
@@ -10,10 +11,11 @@ export const Form = () => {
     const checkContacts = useSelector(selectIsContact);
     const handleSubmit = ({ name, phone }, action) => {
         if (!checkContacts(name)) {
-            alert(`${name} is already is contacts`);
-            return;
+            return notifyWarning(`${name} is already is contacts`)
+                ;
         }
         dispatch(addContact({ name, phone }));
+        notifySuccess(`${name} added to phonebook`)
         action.resetForm();
     };
     return (
